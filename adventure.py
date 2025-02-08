@@ -4,7 +4,6 @@ it with Week 4 content.
 """
 
 import random #In order to use random.choice() and random.random()
-inventory = []
 
 def aquire_item(inventory, item):
     """Appends the item to the inventory list."""
@@ -21,7 +20,7 @@ def display_inventory(inventory):
     """This function will display and format the player's inventory list."""
     number = 1
     if inventory:
-        print("Your inventory:\n")
+        print("Your inventory:")
         #The in operator takes every element inventory and assigns them to item
         for item in inventory:
             print(f"{number}. {item}")
@@ -96,18 +95,10 @@ def check_for_treasure(has_treasure):
 def enter_dungeon(player_health, inventory, dungeon_rooms):
     """Iterates through each room in dungeon_rooms and prints the room_description."""
 
-    try:
-        #The del method will take the element in index 1 of room and remove it from room
-        del dungeon_rooms[0][1] #Here, we try to remove the item from the first room
-    except TypeError:
-        print('''Error: Tuples like room in dungeon_rooms are immutable.
-        This means that the rooms cannot be changed once they are defined.
-        Thus, del dungeon_rooms[0][1] produces an error.''')
-
+    updated_inventory = []
     #The in operator takes every element of dungeon_rooms and assigns them to room
     for room in dungeon_rooms:
         print(room[0])
-        updated_inventory = []
         if room[1]:
             updated_inventory = aquire_item(inventory, room[1])
         if room[2]:
@@ -141,10 +132,17 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
                             print("You are barely alive!")
             if room[2] == "none":
                 print("There doesn't seem to be a challenge in this room. You move on.")
-                player_health += 0
+                player_health += 0 
 
         display_inventory(updated_inventory)
         display_player_status(player_health)
+    try:
+        #The del method will take the element in index 1 of room and remove it from room
+        del dungeon_rooms[0][1] #Here, we try to remove the item from the first room
+    except TypeError:
+        print('''Error: Tuples like room in dungeon_rooms are immutable.
+        This means that the rooms cannot be changed once they are defined.
+        Thus, del dungeon_rooms[0][1] produces an error.''')
     return player_health, updated_inventory
 
 def main():
@@ -152,7 +150,7 @@ def main():
     player_health = 100
     monster_health = 70 # Example hardcoded value
     has_treasure = False
-
+    inventory = []
     dungeon_rooms = [
         ("Where potions are brewed.", "potion", "trap", ("You escape an exposion!",
             "You're caught in an explosion.", 15)),
