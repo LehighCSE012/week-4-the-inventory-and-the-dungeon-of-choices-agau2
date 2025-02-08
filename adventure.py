@@ -5,7 +5,7 @@ it with Week 4 content.
 
 import random #In order to use random.choice() and random.random()
 
-def aquire_item(inventory, item):
+def acquire_item(inventory, item):
     """Appends the item to the inventory list."""
     added_to_inventory = []
     if item:
@@ -100,42 +100,42 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
     for room in dungeon_rooms:
         print(room[0])
         if room[1]:
-            updated_inventory = aquire_item(inventory, room[1])
-        if room[2]:
-            if room[2] == "puzzle":
-                print("You encouter a puzzle!")
-                puzzle_decision = input("Would you like to solve or skip the puzzle?")
-                if puzzle_decision == "solve":
-                    puzzle_success = random.choice([True, False])
-                    if puzzle_success:
-                        print(room[3][0])
-                        player_health = player_health + room[3][2]
-                    else:
-                        print(room[3][1])
-                        player_health = player_health - room[3][2] 
-                        if player_health < 0:
-                            player_health = 0
-                            print("You are barely alive!")
-            if room[2] == "trap":
-                print("You see a potential trap!")
-                trap_decision = input("Do you want to disarm or bypass the trap?")
-                if trap_decision == "disarm":
-                    trap_success = random.choice([True, False])
-                    if trap_success:
-                        print(room[3][0])
-                        player_health = player_health + room[3][2]
-                    else:
-                        print(room[3][1])
-                        player_health = player_health - room[3][2]
-                        if player_health < 0:
-                            player_health = 0
-                            print("You are barely alive!")
-            if room[2] == "none":
-                print("There doesn't seem to be a challenge in this room. You move on.")
-                player_health += 0 
+            updated_inventory = acquire_item(inventory, room[1])
+        if room[2] == "puzzle":
+            print("You encouter a puzzle!")
+            puzzle_decision = input("Would you like to solve or skip the puzzle?")
+            if puzzle_decision == "solve":
+                puzzle_success = random.choice([True, False])
+                if puzzle_success:
+                    print(room[3][0])
+                    player_health = player_health - room[3][2]
+                else:
+                    print(room[3][1])
+                    player_health = player_health + room[3][2] 
+                if player_health < 0:
+                    player_health = 0
+                    print("You are barely alive!")
+        if room[2] == "trap":
+            print("You see a potential trap!")
+            trap_decision = input("Do you want to disarm or bypass the trap?")
+            if trap_decision == "disarm":
+                trap_success = random.choice([True, False])
+                if trap_success:
+                    print(room[3][0])
+                    player_health = player_health - room[3][2]
+                else:
+                    print(room[3][1])
+                    player_health = player_health + room[3][2]
+                if player_health < 0:
+                    player_health = 0
+                    print("You are barely alive!")
+        if room[2] == "none":
+            print("There doesn't seem to be a challenge in this room. You move on.")
+            player_health += 0
 
         display_inventory(updated_inventory)
         display_player_status(player_health)
+    """
     try:
         #The del method will take the element in index 1 of room and remove it from room
         del dungeon_rooms[0][1] #Here, we try to remove the item from the first room
@@ -143,6 +143,7 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
         print('''Error: Tuples like room in dungeon_rooms are immutable.
         This means that the rooms cannot be changed once they are defined.
         Thus, del dungeon_rooms[0][1] produces an error.''')
+    """
     return player_health, updated_inventory
 
 def main():
@@ -153,22 +154,22 @@ def main():
     inventory = []
     dungeon_rooms = [
         ("Where potions are brewed.", "potion", "trap", ("You escape an exposion!",
-            "You're caught in an explosion.", 15)),
+            "You're caught in an explosion.", -15)),
         ("A secret room hidden behind a false wall", "Rare Gem", "none", None),
         ("A chamber filled with jewels", "Golden Crown", "puzzle", ("You solve the puzzle!",
-            "You don't solve the puzzle and take damage", 10)),
+            "You don't solve the puzzle and take damage", -10)),
         ("A dark, damp cell with rusty chains", None, "none", None)]
 
     has_treasure = random.choice([True, False]) # Randomly assign treasure
 
-    player_health = handle_path_choice(player_health)
+    new_player_health = handle_path_choice(player_health)
 
     treasure_obtained_in_combat = combat_encounter(player_health, monster_health, has_treasure)
 
     check_for_treasure(treasure_obtained_in_combat) # Or has_treasure, depending on logic
 
-    if player_health > 0:
-        enter_dungeon(player_health, inventory, dungeon_rooms)
+    if new_player_health > 0:
+        enter_dungeon(new_player_health, inventory, dungeon_rooms)
 
 #Will run the main function
 if __name__ == "__main__":
