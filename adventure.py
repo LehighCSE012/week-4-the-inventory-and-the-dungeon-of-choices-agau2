@@ -13,7 +13,7 @@ def acquire_item(inventory, item):
         inventory.append(item)
         #The + is list concatenation, so the items of inventory get copied into added_to_inventory
         added_to_inventory = added_to_inventory + inventory
-        print(f"You found a {item} in the room!")
+        print(f"You found a {item} in the room.")
     return added_to_inventory
 
 def display_inventory(inventory):
@@ -106,12 +106,13 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
             puzzle_decision = input("Would you like to solve or skip the puzzle?")
             if puzzle_decision == "solve":
                 puzzle_success = random.choice([True, False])
+                print(player_health)
                 if puzzle_success:
                     print(room[3][0])
                     player_health = player_health - room[3][2]
-                else:
+                elif not puzzle_success:
                     print(room[3][1])
-                    player_health = player_health + room[3][2] 
+                    player_health = player_health + room[3][2]
                 if player_health < 0:
                     player_health = 0
                     print("You are barely alive!")
@@ -123,7 +124,7 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
                 if trap_success:
                     print(room[3][0])
                     player_health = player_health - room[3][2]
-                else:
+                elif not trap_success:
                     print(room[3][1])
                     player_health = player_health + room[3][2]
                 if player_health < 0:
@@ -135,15 +136,15 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
 
         display_inventory(updated_inventory)
         display_player_status(player_health)
-    """
+    '''
     try:
         #The del method will take the element in index 1 of room and remove it from room
         del dungeon_rooms[0][1] #Here, we try to remove the item from the first room
     except TypeError:
-        print('''Error: Tuples like room in dungeon_rooms are immutable.
+        print("""Error: Tuples like room in dungeon_rooms are immutable.
         This means that the rooms cannot be changed once they are defined.
-        Thus, del dungeon_rooms[0][1] produces an error.''')
-    """
+        Thus, del dungeon_rooms[0][1] produces an error.""")
+    '''
     return player_health, updated_inventory
 
 def main():
