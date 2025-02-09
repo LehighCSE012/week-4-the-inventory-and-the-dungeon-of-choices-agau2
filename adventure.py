@@ -10,8 +10,10 @@ def acquire_item(inventory, item):
     added_to_inventory = []
     if item:
         #The .append() function will add an item into aquired_items as the last element.
+        #It is useful when lists need to gain additional elements.
         inventory.append(item)
-        #The + is list concatenation, so the items of inventory get copied into added_to_inventory
+        #The + is list concatenation, so the items of inventory get copied into added_to_inventory.
+        #This is useful when two lists have elements that need to be combined into one large list.
         added_to_inventory = added_to_inventory + inventory
         print(f"You acquired a {item}!")
     return added_to_inventory
@@ -21,7 +23,8 @@ def display_inventory(inventory):
     number = 1
     if inventory:
         print("Your inventory:")
-        #The in operator takes every element inventory and assigns them to item
+        #The in operator takes every element inventory and assigns them to item.
+        #It is very useful in loops like the below for loop.
         for item in inventory:
             print(f"{number}. {item}")
             number += 1
@@ -94,9 +97,9 @@ def check_for_treasure(has_treasure):
 
 def enter_dungeon(player_health, inventory, dungeon_rooms):
     """Iterates through each room in dungeon_rooms and prints the room_description."""
-
     updated_inventory = []
-    #The in operator takes every element of dungeon_rooms and assigns them to room
+    #The in operator takes every element of dungeon_rooms and assigns them to room. This is very useful
+    #in loops like the below for loop.
     for room in dungeon_rooms:
         print(room[0])
         if room[1]:
@@ -110,7 +113,7 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
                 print(player_health)
                 if puzzle_success:
                     print(room[3][0])
-                    player_health = player_health + room[3][2] #Changed to +
+                    player_health = player_health + room[3][2]
                 elif not puzzle_success:
                     print(room[3][1])
                     player_health = player_health + room[3][2]
@@ -124,7 +127,7 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
                 trap_success = random.choice([True, False])
                 if trap_success:
                     print(room[3][0])
-                    player_health = player_health + room[3][2] #Changed to +
+                    player_health = player_health + room[3][2]
                 elif not trap_success:
                     print(room[3][1])
                     player_health = player_health + room[3][2]
@@ -137,13 +140,12 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
 
         display_inventory(updated_inventory)
         display_player_status(player_health)
-    '''try:
+    try:
         #The del method will take the element in index 1 of room and remove it from room
         del dungeon_rooms[0][1] #Here, we try to remove the item from the first room
     except TypeError:
-        print(Error: Tuples like room in dungeon_rooms are immutable.
-        This means that the rooms cannot be changed once they are defined.
-        Thus, del dungeon_rooms[0][1] produces an error.)'''
+        print("Error: Tuples like room in dungeon_rooms are immutable. This means that the rooms " 
+            "cannot be changed once they are defined. Thus, del dungeon_rooms[0][1] produces an error.")
     return player_health, updated_inventory
 
 def main():
