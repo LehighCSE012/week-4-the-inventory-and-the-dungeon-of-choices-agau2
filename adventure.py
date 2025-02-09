@@ -100,9 +100,10 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
     for room in dungeon_rooms:
         print(room[0])
         if room[1]:
+            print(f"You found a {room[1]} in the room.")
             updated_inventory = acquire_item(inventory, room[1])
         if room[2] == "puzzle":
-            print("You encouter a puzzle!")
+            print("You encounter a puzzle!")
             puzzle_decision = input("Would you like to solve or skip the puzzle?")
             if puzzle_decision == "solve":
                 puzzle_success = random.choice([True, False])
@@ -140,9 +141,9 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
         #The del method will take the element in index 1 of room and remove it from room
         del dungeon_rooms[0][1] #Here, we try to remove the item from the first room
     except TypeError:
-        print("""Error: Tuples like room in dungeon_rooms are immutable.
+        print(Error: Tuples like room in dungeon_rooms are immutable.
         This means that the rooms cannot be changed once they are defined.
-        Thus, del dungeon_rooms[0][1] produces an error.""")'''
+        Thus, del dungeon_rooms[0][1] produces an error.)'''
     return player_health, updated_inventory
 
 def main():
