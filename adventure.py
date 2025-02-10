@@ -98,8 +98,8 @@ def check_for_treasure(has_treasure):
 def enter_dungeon(player_health, inventory, dungeon_rooms):
     """Iterates through each room in dungeon_rooms and prints the room_description."""
     updated_inventory = []
-    #The in operator takes every element of dungeon_rooms and assigns them to room. This is very useful
-    #in loops like the below for loop.
+    #The in operator takes every element of dungeon_rooms and assigns them to room.
+    # This is very useful in loops like the below for loop.
     for room in dungeon_rooms:
         print(room[0])
         if room[1]:
@@ -108,32 +108,29 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
         if room[2] == "puzzle":
             print("You encounter a puzzle!")
             puzzle_decision = input("Would you like to solve or skip the puzzle?")
-            if puzzle_decision == "solve":
-                puzzle_success = random.choice([True, False])
-                print(player_health)
-                if puzzle_success:
-                    print(room[3][0])
-                    player_health = player_health + room[3][2]
-                elif not puzzle_success:
-                    print(room[3][1])
-                    player_health = player_health + room[3][2]
-                if player_health < 0:
-                    player_health = 0
-                    print("You are barely alive!")
+            puzzle_success = random.choice([True, False])
+            if puzzle_decision == "solve" and puzzle_success:
+                print(room[3][0])
+                player_health = player_health + room[3][2]
+            elif puzzle_decision == "solve" and not puzzle_success:
+                print(room[3][1])
+                player_health = player_health + room[3][2]
+            if player_health < 0:
+                player_health = 0
+                print("You are barely alive!")
         if room[2] == "trap":
             print("You see a potential trap!")
             trap_decision = input("Do you want to disarm or bypass the trap?")
-            if trap_decision == "disarm":
-                trap_success = random.choice([True, False])
-                if trap_success:
-                    print(room[3][0])
-                    player_health = player_health + room[3][2]
-                elif not trap_success:
-                    print(room[3][1])
-                    player_health = player_health + room[3][2]
-                if player_health < 0:
-                    player_health = 0
-                    print("You are barely alive!")
+            trap_success = random.choice([True, False])
+            if trap_decision == "disarm" and trap_success:
+                print(room[3][0])
+                player_health = player_health + room[3][2]
+            elif trap_decision == "disarm" and not trap_success:
+                print(room[3][1])
+                player_health = player_health + room[3][2]
+            if player_health < 0:
+                player_health = 0
+                print("You are barely alive!")
         if room[2] == "none":
             print("There doesn't seem to be a challenge in this room. You move on.")
             player_health += 0
@@ -144,8 +141,9 @@ def enter_dungeon(player_health, inventory, dungeon_rooms):
         #The del method will take the element in index 1 of room and remove it from room
         del dungeon_rooms[0][1] #Here, we try to remove the item from the first room
     except TypeError:
-        print("Error: Tuples like room in dungeon_rooms are immutable. This means that the rooms " 
-            "cannot be changed once they are defined. Thus, del dungeon_rooms[0][1] produces an error.")
+        print("Error: Tuples like room in dungeon_rooms are immutable. This means that the rooms "
+            "cannot be changed once they are defined. Thus, del dungeon_rooms[0][1] produces "
+            "an error.")
     return player_health, updated_inventory
 
 def main():
